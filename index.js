@@ -228,10 +228,11 @@ celebrantsList.addEventListener('click', (event) => {
     if(isDeleteButton){
         const celebrantsItemToDelete = document.querySelector(`[data-celebrants-id = '${deleteCelebrantsId}']`);  
         celebrantsItemToDelete.remove();
-        
+        console.log(birthdays);
         const indexOfDeleteCelebrantsItem = birthdays.findIndex((birthday, index) => {
-            return birthdays[index].id === deleteCelebrantsId;
+            return birthdays[index].id == deleteCelebrantsId;
         });
+        console.log(indexOfDeleteCelebrantsItem);
         birthdays.splice(indexOfDeleteCelebrantsItem, 1);
     };
 });
