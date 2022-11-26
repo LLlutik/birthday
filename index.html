@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
 </head>
 
@@ -17,14 +20,16 @@
                 <p>У кого скоро день рождения?</p>
                 <button class="check-button default-button">Узнать</button>
                 <div class="add-celebrant-box">
-                    <div class="add-celebrant-box__title">
+                    <div class="add-celebrant-box__title title">
                         <h2>Добавить именинника</h2>
                     </div>
                     <form class="add-celebrant-box__form">
-                        <input name="celebrantName" class="add-celebrant-box__input" type="text"
-                            placeholder="Имя">
-                        <input name="celebrantDate" class="add-celebrant-box__input" type="text"
-                            placeholder="Дата рождения  DD.MM">
+                        <div class="add-celebrant-box__wrapper">
+                            <input name="celebrantName" class="add-celebrant-box__input" type="text"
+                                placeholder="Имя">
+                            <input name="celebrantDate" class="add-celebrant-box__input" type="text"
+                                placeholder="Дата рождения  DD.MM">
+                        </div>
                         <button type="submit" class="add-celebrant-box__button default-button">
                             Добавить
                         </button>
@@ -36,11 +41,16 @@
     <section class="celebrants">
         <div class="container">
             <div class="celebrants-list">
-                <h2>Список именинников</h2>
+                <h2 class="celebrants-list__title title">Список именинников</h2>
                 <div class="celebrants-item">
-                    <div class="celebrants-item__name">Имя</div>
-                    <div class="celebrants-item__date">25.08</div>
-                    <button class="celebrants-item__delete"></button>
+                    <div class="celebrants-item__name celebrants-item__string">Имя</div>
+                    <div class="celebrants-item__date celebrants-item__string">25.08</div>
+                    <button class="celebrants-item__delete" title="Удалить данную карточку"></button>
+                </div>
+                <div class="celebrants-item">
+                    <div class="celebrants-item__name celebrants-item__string">Имя</div>
+                    <div class="celebrants-item__date celebrants-item__string">25.08</div>
+                    <button class="celebrants-item__delete" title="Удалить данную карточку"></button>
                 </div>
             </div>
             <div class="celebrants-images-block">
@@ -56,6 +66,14 @@
             </div>
         </div>
     </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__logo">
+                <img src="img/logo.svg" alt="Логотип">
+            </div>
+            <p>Проект еще в разработке</p> 
+        </div>
+    </footer>
     <script src="index.js"></script>
 </body>
 </html>

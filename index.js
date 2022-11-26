@@ -259,7 +259,7 @@ const birthdayOfMyRelatives = [
     
 ];
 // console.log(birthdayOfMyRelatives);
-const result = getNextBirthday(birthdayOfMyRelatives);
-alert(`Следующий день рождения у ${result.name} ${result.date}`)
+//const result = getNextBirthday(birthdayOfMyRelatives);
+//alert(`Следующий день рождения у ${result.name} ${result.date}`)
 
 
