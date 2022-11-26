@@ -1,75 +1,19 @@
-const getNextBirthday = (birthdayOfMyRelatives) => {
-    
-    const birthdayArray = birthdayOfMyRelatives.map((people, index) => {
-        const peopleDate = people.date.split('.');
-        const peopleDay = +peopleDate[0];
-        const peopleMonth = +peopleDate[1];
-        const peopleYear = new Date().getFullYear();
-        let fullBithday = new Date(peopleYear, peopleMonth - 1, peopleDay);
-        if(Date.now() > fullBithday.getTime()){
-            fullBithday = new Date(peopleYear +1, peopleMonth - 1, peopleDay);
-        }
-        return fullBithday;
-    });
-    // console.log(birthdayArray);
-
-    let indexOfNearestBirthday = 0;
-    let nearestBirthday = birthdayArray[indexOfNearestBirthday];
-    let minTimeToNextBirthday = nearestBirthday.getTime() - Date.now();
-   
-    birthdayArray.forEach((birthday, index) => {
-        let currentTimeToNextBirthday = birthday.getTime() - Date.now()
-        if(currentTimeToNextBirthday < minTimeToNextBirthday){
-            nearestBirthday = birthday;
-            minTimeToNextBirthday = currentTimeToNextBirthday;
-            indexOfNearestBirthday = index;
-        }
-    });
-    const daysToNextBirthday = Math.round(minTimeToNextBirthday/1000/60/60/24);
-    if (daysToNextBirthday){
-        alert(`Осталось ${daysToNextBirthday} дней до следующего дня рождения` );
-    } else{
-        alert('Cледующий день рождения уже завтра!');
-    }
-    return birthdayOfMyRelatives[indexOfNearestBirthday];
-}
-
 const birthdayOfMyRelatives = [
     {
-    name: 'Димки',
+    name: 'Димы Орлова',
     date: '28.03',
     },
     {
-    name: 'Полины',
+    name: 'Полины Орловой',
     date: '07.02',
     },
     {
-    name: 'Сашки и Николашки',
+    name: 'Сашки Орлова',
     date: '20.02',
     },
     {
-    name: 'Людки и Даши Орловой',
+    name: 'Люды и Даши Орловой',
     date: '25.08',
-    },
-    {
-    name: 'Маши',
-    date: '21.01',
-    },
-    {
-    name: 'Жени',
-    date: '08.04',
-    },
-    {
-    name: 'Мамы',
-    date: '03.04',
-    },
-    {
-    name: 'Димки Амруллаева',
-    date: '09.11',
-    },
-    {
-    name: 'Насти Амруллаевой',
-    date: '23.11',
     },
     {
     name: 'Вани Орлова',
@@ -196,7 +140,7 @@ const birthdayOfMyRelatives = [
     date: '08.11',
     },
     {
-    name: 'мамы',
+    name: 'Мамы',
     date: '17.11',
     },
     {
@@ -216,50 +160,131 @@ const birthdayOfMyRelatives = [
     date: '19.12',
     },
     {
-    name: 'Саши Карниза',
-    date: '12.09',
-    },
-    {
-    name: 'Иры Карниз',
-    date: '01.08',
-    },
-    {
-    name: 'Жеки Ротаева',
-    date: '03.09',
-    },
-    {
-    name: 'Насти Ротаевой',
-    date: '28.07',
-    },
-    {
-    name: 'Даника Ротаева',
-    date: '02.01',
-    },
-    {
-    name: 'Танюши Мухиной',
-    date: '06.07',
-    },
-    {
-    name: 'Димки Мухиного',
-    date: '30.09',
-    },
-    {
-    name: 'Женьки Мухиной',
-    date: '01.10',
-    },
-    {
-    name: 'Надюши Ковальчук',
-    date: '05.03',
-    },
-    {
     name: 'Лены Орловой',
     date: '13.11',
     },
-    
-    
 ];
-// console.log(birthdayOfMyRelatives);
-//const result = getNextBirthday(birthdayOfMyRelatives);
-//alert(`Следующий день рождения у ${result.name} ${result.date}`)
+// Добавляем id каждому дню рождения
+const birthdays = birthdayOfMyRelatives.map((birthday, index) => {
+    birthday.id = index;
+    return birthday;
+});
+
+// Функция по созданию html карточки
+const createHtmlCard = (dataCelebrantsId, celebrantsName, celebrantsDate) => {
+    const celebrantsItem = document.createElement('div');
+    celebrantsItem.className = 'celebrants-item';
+    celebrantsItem.dataset.celebrantsId = dataCelebrantsId;
+
+    const celebrantsItemName = document.createElement('div');
+    celebrantsItemName.className ='celebrants-item__name celebrants-item__string';
+    celebrantsItemName.textContent = celebrantsName;
+    
+    const celebrantsItemDate = document.createElement('div');
+    celebrantsItemDate.className ='celebrants-item__date celebrants-item__string';
+    celebrantsItemDate.textContent = celebrantsDate;
+
+    const celebrantsItemDeleteButton = document.createElement('button');
+    celebrantsItemDeleteButton.className ='celebrants-item__delete';
+    celebrantsItemDeleteButton.dataset.deleteCelebrantsId = dataCelebrantsId;
+    celebrantsItemDeleteButton.title = "Удалить данную карточку";
+
+    
+    celebrantsItem.append(celebrantsItemName, celebrantsItemDate, celebrantsItemDeleteButton);
+
+    return celebrantsItem;
+}
+
+//создаем задачи на основе birthdays
+const celebrantsList = document.querySelector('.celebrants-list');
+birthdays.forEach(birthday => {
+    const newBirthdayCard = createHtmlCard(birthday.id, birthday.name, birthday.date);
+    celebrantsList.append(newBirthdayCard);
+});
+
+const addCelebrantBoxForm = document.querySelector('.add-celebrant-box__form');
+
+//создаем задачу из данных формы
+addCelebrantBoxForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const {target} = event;
+    console.log(target);
+    const inputName = target.celebrantName.value.trim();
+    const inputDate = target.celebrantDate.value.trim();
+    
+    const newId = String(Date.now()); 
+    const newHtmlCard = createHtmlCard(newId, inputName, inputDate);
+    birthdays.push({id: newId, name: inputName, date: inputDate});
+    celebrantsList.append(newHtmlCard); 
+    addCelebrantBoxForm.reset();
+});
+
+//Вешаем обработчик событий на родителя tasksList, чтобы отслеживать нажатия кнопок Удалить
+let deleteCelebrantsId;
+celebrantsList.addEventListener('click', (event) => {
+    const isDeleteButton = event.target.closest('.celebrants-item__delete');
+    deleteCelebrantsId = event.target.dataset.deleteCelebrantsId;
+    console.log(deleteCelebrantsId);
+    if(isDeleteButton){
+        const celebrantsItemToDelete = document.querySelector(`[data-celebrants-id = '${deleteCelebrantsId}']`);  
+        celebrantsItemToDelete.remove();
+        
+        const indexOfDeleteCelebrantsItem = birthdays.findIndex((birthday, index) => {
+            return birthdays[index].id === deleteCelebrantsId;
+        });
+        birthdays.splice(indexOfDeleteCelebrantsItem, 1);
+    };
+});
+
+//Функция подсчета ближайшего дня рождения
+const getNextBirthday = (birthdayOfMyRelatives) => {
+    
+    const birthdayArray = birthdayOfMyRelatives.map((people, index) => {
+        const peopleDate = people.date.split('.');
+        const peopleDay = +peopleDate[0];
+        const peopleMonth = +peopleDate[1];
+        const peopleYear = new Date().getFullYear();
+        let fullBithday = new Date(peopleYear, peopleMonth - 1, peopleDay);
+        if(Date.now() > fullBithday.getTime()){
+            fullBithday = new Date(peopleYear +1, peopleMonth - 1, peopleDay);
+        }
+        return fullBithday;
+    });
+
+    let indexOfNearestBirthday = 0;
+    let nearestBirthday = birthdayArray[indexOfNearestBirthday];
+    let minTimeToNextBirthday = nearestBirthday.getTime() - Date.now();
+   
+    birthdayArray.forEach((birthday, index) => {
+        let currentTimeToNextBirthday = birthday.getTime() - Date.now()
+        if(currentTimeToNextBirthday < minTimeToNextBirthday){
+            nearestBirthday = birthday;
+            minTimeToNextBirthday = currentTimeToNextBirthday;
+            indexOfNearestBirthday = index;
+        }
+    });
+    const daysToNextBirthday = Math.round(minTimeToNextBirthday/1000/60/60/24);
+    const celebrant = birthdayOfMyRelatives[indexOfNearestBirthday];
+    if (daysToNextBirthday){
+        alert(`Осталось ${daysToNextBirthday} дней до дня рождения\n${celebrant.name} (дата ${celebrant.date}) ` );
+    } else{
+        alert(`Cледующий день рождения уже завтра! У ${celebrant.name}`);
+    }
+    //return birthdayOfMyRelatives[indexOfNearestBirthday];
+}
 
 
+//console.log(birthdayOfMyRelatives);
+const checkButton = document.querySelector('.check-button');
+checkButton.addEventListener('click', () => {
+    const result = getNextBirthday(birthdays);
+    //alert(`Следующий день рождения у ${result.name} ${result.date}`)
+})
+
+
+//Цели:
+// Добавить свое модальное окно на вывод результата, когда ближайший день рождения
+// Добавить модальное окно на удаление
+// Сделать проверку, есть ли такая дата уже записанная, если есть, попросить найти удалить, создать новую объединенную
+// Изменить инпут в формате даты
+// Добавить кнопки сортировки по датам, по алфавиту
