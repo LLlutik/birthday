@@ -1,3 +1,28 @@
+import './main.css';
+import UrlImg1 from './img/1.jpg';
+import UrlImg2 from './img/2.jpg';
+import UrlImg3 from './img/3.jpg';
+import UrlImg4 from './img/4.jpg';
+import UrlImg5 from './img/5.jpg';
+import UrlImg6 from './img/6.jpg';
+import UrlImg7 from './img/7.jpg';
+import UrlImg8 from './img/8.jpg';
+import UrlImg9 from './img/9.jpg';
+import UrlFooterLogo from './img/logo.svg';
+
+const decorImages = document.querySelectorAll('.default-img');
+const footerLogo = document.querySelector('.footer__logo img');
+footerLogo.src = UrlFooterLogo;
+decorImages[0].src = UrlImg1;
+decorImages[1].src = UrlImg2;
+decorImages[2].src = UrlImg3;
+decorImages[3].src = UrlImg4;
+decorImages[4].src = UrlImg5;
+decorImages[5].src = UrlImg6;
+decorImages[6].src = UrlImg7;
+decorImages[7].src = UrlImg8;
+decorImages[8].src = UrlImg9;
+
 const birthdayOfMyRelatives = [
     {
     name: 'Димы Орлова',
@@ -125,7 +150,7 @@ const birthdayOfMyRelatives = [
     },
     {
     name: 'Марины Орловой',
-    date: '10.10',
+    date: '10.09',
     },
     {
     name: 'Тимоши Орлова',
@@ -281,11 +306,3 @@ checkButton.addEventListener('click', () => {
     const result = getNextBirthday(birthdays);
     //alert(`Следующий день рождения у ${result.name} ${result.date}`)
 })
-
-
-//Цели:
-// Добавить свое модальное окно на вывод результата, когда ближайший день рождения
-// Добавить модальное окно на удаление
-// Сделать проверку, есть ли такая дата уже записанная, если есть, попросить найти удалить, создать новую объединенную
-// Изменить инпут в формате даты
-// Добавить кнопки сортировки по датам, по алфавиту

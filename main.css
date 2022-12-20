@@ -205,19 +205,20 @@ h1,h2,p{
     height: 10px;
     cursor: pointer;
 }
-.celebrants-images-block{
+.celebrants-images-block {
     max-width: 510px;
     width: 100%;
+
+   
 }
 .celebrants-images-item-right{
     margin-left: auto;
 }
-.default-img{
+.default-img {
+    display: block;
     width: 310px;
     height: 218px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    object-fit: cover;
     margin-bottom: 150px;
 }
 .footer{
