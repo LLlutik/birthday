@@ -1,3 +1,4 @@
+import moment from 'moment';
 import './main.css';
 import UrlImg1 from './img/1.jpg';
 import UrlImg2 from './img/2.jpg';
@@ -233,7 +234,6 @@ const addCelebrantBoxForm = document.querySelector('.add-celebrant-box__form');
 addCelebrantBoxForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const {target} = event;
-    console.log(target);
     const inputName = target.celebrantName.value.trim();
     const inputDate = target.celebrantDate.value.trim();
     
@@ -249,60 +249,86 @@ let deleteCelebrantsId;
 celebrantsList.addEventListener('click', (event) => {
     const isDeleteButton = event.target.closest('.celebrants-item__delete');
     deleteCelebrantsId = event.target.dataset.deleteCelebrantsId;
-    console.log(deleteCelebrantsId);
     if(isDeleteButton){
         const celebrantsItemToDelete = document.querySelector(`[data-celebrants-id = '${deleteCelebrantsId}']`);  
         celebrantsItemToDelete.remove();
-        console.log(birthdays);
         const indexOfDeleteCelebrantsItem = birthdays.findIndex((birthday, index) => {
             return birthdays[index].id == deleteCelebrantsId;
         });
-        console.log(indexOfDeleteCelebrantsItem);
         birthdays.splice(indexOfDeleteCelebrantsItem, 1);
     };
 });
 
 //Функция подсчета ближайшего дня рождения
 const getNextBirthday = (birthdayOfMyRelatives) => {
-    
+    //Получаем массив с датами этого года
     const birthdayArray = birthdayOfMyRelatives.map((people, index) => {
         const peopleDate = people.date.split('.');
         const peopleDay = +peopleDate[0];
         const peopleMonth = +peopleDate[1];
         const peopleYear = new Date().getFullYear();
         let fullBithday = new Date(peopleYear, peopleMonth - 1, peopleDay);
-        if(Date.now() > fullBithday.getTime()){
+        if((Date.now() - fullBithday.getTime()) > 86400000){
             fullBithday = new Date(peopleYear +1, peopleMonth - 1, peopleDay);
         }
+        
         return fullBithday;
     });
 
     let indexOfNearestBirthday = 0;
     let nearestBirthday = birthdayArray[indexOfNearestBirthday];
     let minTimeToNextBirthday = nearestBirthday.getTime() - Date.now();
-   
+    
+    let isTodayBirthday = false;
     birthdayArray.forEach((birthday, index) => {
-        let currentTimeToNextBirthday = birthday.getTime() - Date.now()
-        if(currentTimeToNextBirthday < minTimeToNextBirthday){
+        let currentTimeToNextBirthday = birthday.getTime() - Date.now();
+        if(currentTimeToNextBirthday < 0){
+            isTodayBirthday = true;
+            nearestBirthday = birthday;
+            minTimeToNextBirthday = currentTimeToNextBirthday;
+            indexOfNearestBirthday = index;
+        }else if(currentTimeToNextBirthday < minTimeToNextBirthday){
             nearestBirthday = birthday;
             minTimeToNextBirthday = currentTimeToNextBirthday;
             indexOfNearestBirthday = index;
         }
     });
-    const daysToNextBirthday = Math.round(minTimeToNextBirthday/1000/60/60/24);
+
     const celebrant = birthdayOfMyRelatives[indexOfNearestBirthday];
-    if (daysToNextBirthday){
-        alert(`Осталось ${daysToNextBirthday} дней до дня рождения\n${celebrant.name} (дата ${celebrant.date}) ` );
-    } else{
-        alert(`Cледующий день рождения уже завтра! У ${celebrant.name}`);
+    return { 
+        isTodayBirthday,
+        celebrant,
+        minTimeToNextBirthday
     }
-    //return birthdayOfMyRelatives[indexOfNearestBirthday];
+}
+//Функция генерации сообщения в html
+const createHtmlMessage = (message) => {
+    const aboutBirthdayWrapper = document.querySelector('.about-birthday__wrapper');
+    aboutBirthdayWrapper.innerHTML = '';
+    const messageAboutBirthday = document.createElement('div');
+    messageAboutBirthday.className = 'about-birthday';
+    messageAboutBirthday.textContent = message;
+    aboutBirthdayWrapper.append(messageAboutBirthday);
+}
+//Функция вывода найденного ближайшего дня рождения
+const outputNextBirthday = (isTodayBirthday, celebrant, minTimeToNextBirthday) => {
+    if(isTodayBirthday){
+        
+        createHtmlMessage(`Сегодня  день рождения у ${celebrant.name}!`);
+    }
+    else{
+        const daysToNextBirthday = Math.round(minTimeToNextBirthday/1000/60/60/24);
+        if (daysToNextBirthday){
+            createHtmlMessage(`Осталось ${daysToNextBirthday} дней до дня рождения\n${celebrant.name} (дата ${celebrant.date}) ` );
+        } else{
+            createHtmlMessage(`Cледующий день рождения уже завтра! У ${celebrant.name}!`);
+        }
+    } 
 }
 
 
-//console.log(birthdayOfMyRelatives);
 const checkButton = document.querySelector('.check-button');
 checkButton.addEventListener('click', () => {
-    const result = getNextBirthday(birthdays);
-    //alert(`Следующий день рождения у ${result.name} ${result.date}`)
+    const {isTodayBirthday, celebrant, minTimeToNextBirthday} = getNextBirthday(birthdays);
+    outputNextBirthday(isTodayBirthday, celebrant, minTimeToNextBirthday);   
 })
