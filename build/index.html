@@ -8,8 +8,9 @@
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat:wght@400;700&display=swap"
+        rel="stylesheet">
+
 <script defer src="build.js"></script></head>
 
 <body>
@@ -26,14 +27,13 @@
                     </div>
                     <form class="add-celebrant-box__form">
                         <div class="add-celebrant-box__wrapper">
-                            <input name="celebrantName" class="add-celebrant-box__input" type="text"
-                                placeholder="Имя">
+                            <input name="celebrantName" class="add-celebrant-box__input" type="text" placeholder="Имя">
                             <input name="celebrantDate" class="add-celebrant-box__input" type="text"
                                 placeholder="Дата рождения  DD.MM">
                         </div>
-                        
-                            <button type="submit" class="add-celebrant-box__button default-button">
-                        
+
+                        <button type="submit" class="add-celebrant-box__button default-button">
+
                             Добавить
                         </button>
                     </form>
@@ -69,9 +69,27 @@
             <div class="footer__logo">
                 <img alt="Логотип">
             </div>
-            <p>Проект еще в разработке</p> 
+            <p>Проект еще в разработке</p>
         </div>
     </footer>
+    <div class="modal-overlay modal-overlay_hidden">
+        <div class="delete-modal">
+            <h3 class="delete-modal__question">
+                Вы действительно хотите удалить эту карточку?
+            </h3>
+            <div class="delete-modal__buttons">
+                <button class="delete-modal__button
+        delete-modal__cancel-button">
+                    Отмена
+                </button>
+                <button class="delete-modal__button
+        delete-modal__confirm-button ">
+                    Удалить
+                </button>
+            </div>
+        </div>
+    </div>
     <script src="build/build.js"></script>
 </body>
+
 </html>

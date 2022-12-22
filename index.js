@@ -215,7 +215,6 @@ const createHtmlCard = (dataCelebrantsId, celebrantsName, celebrantsDate) => {
     celebrantsItemDeleteButton.dataset.deleteCelebrantsId = dataCelebrantsId;
     celebrantsItemDeleteButton.title = "Удалить данную карточку";
 
-    
     celebrantsItem.append(celebrantsItemName, celebrantsItemDate, celebrantsItemDeleteButton);
 
     return celebrantsItem;
@@ -246,17 +245,27 @@ addCelebrantBoxForm.addEventListener('submit', (event) => {
 
 //Вешаем обработчик событий на родителя tasksList, чтобы отслеживать нажатия кнопок Удалить
 let deleteCelebrantsId;
+const modalOverlay = document.querySelector('.modal-overlay');
+const cancelButton = document.querySelector('.delete-modal__cancel-button');
+const confirmButton = document.querySelector('.delete-modal__confirm-button');
 celebrantsList.addEventListener('click', (event) => {
     const isDeleteButton = event.target.closest('.celebrants-item__delete');
     deleteCelebrantsId = event.target.dataset.deleteCelebrantsId;
     if(isDeleteButton){
-        const celebrantsItemToDelete = document.querySelector(`[data-celebrants-id = '${deleteCelebrantsId}']`);  
-        celebrantsItemToDelete.remove();
-        const indexOfDeleteCelebrantsItem = birthdays.findIndex((birthday, index) => {
-            return birthdays[index].id == deleteCelebrantsId;
-        });
-        birthdays.splice(indexOfDeleteCelebrantsItem, 1);
+        modalOverlay.classList.remove('modal-overlay_hidden');
     };
+});
+cancelButton.addEventListener('click', (event) => {
+    modalOverlay.classList.add('modal-overlay_hidden');
+});
+confirmButton.addEventListener('click', (event) => {
+    const celebrantsItemToDelete = document.querySelector(`[data-celebrants-id = '${deleteCelebrantsId}']`);  
+    celebrantsItemToDelete.remove();
+    const indexOfDeleteCelebrantsItem = birthdays.findIndex((birthday, index) => {
+        return birthdays[index].id == deleteCelebrantsId;
+    });
+    birthdays.splice(indexOfDeleteCelebrantsItem, 1);
+    modalOverlay.classList.add('modal-overlay_hidden');
 });
 
 //Функция подсчета ближайшего дня рождения
