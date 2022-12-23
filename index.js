@@ -258,6 +258,9 @@ celebrantsList.addEventListener('click', (event) => {
 cancelButton.addEventListener('click', (event) => {
     modalOverlay.classList.add('modal-overlay_hidden');
 });
+modalOverlay.addEventListener('click', (event) => {
+    modalOverlay.classList.add('modal-overlay_hidden');
+});
 confirmButton.addEventListener('click', (event) => {
     const celebrantsItemToDelete = document.querySelector(`[data-celebrants-id = '${deleteCelebrantsId}']`);  
     celebrantsItemToDelete.remove();
