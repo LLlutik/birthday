@@ -220,6 +220,12 @@ const createHtmlCard = (dataCelebrantsId, celebrantsName, celebrantsDate) => {
     return celebrantsItem;
 }
 
+//функция по обновлению имени html карточки
+const updateHtmlCardOfCelebrant = (index) => {
+    const celebrantsItemName = celebrantsHtmlCardArray[index].querySelector('.celebrants-item__name');
+    celebrantsItemName.textContent = birthdays[index].name;
+}
+
 //создаем задачи на основе birthdays
 const celebrantsList = document.querySelector('.celebrants-list');
 birthdays.forEach(birthday => {
@@ -230,17 +236,32 @@ birthdays.forEach(birthday => {
 const addCelebrantBoxForm = document.querySelector('.add-celebrant-box__form');
 
 //создаем задачу из данных формы
+const dateArrayOfBirthdays = birthdays.map(celebrant => celebrant.date);
+const celebrantsHtmlCardArray = document.querySelectorAll('.celebrants-item');
+
 addCelebrantBoxForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const {target} = event;
     const inputName = target.celebrantName.value.trim();
     const inputDate = target.celebrantDate.value.trim();
     
-    const newId = String(Date.now()); 
-    const newHtmlCard = createHtmlCard(newId, inputName, inputDate);
-    birthdays.push({id: newId, name: inputName, date: inputDate});
-    celebrantsList.append(newHtmlCard); 
+    //Проверяем, есть ли запись с такой датой.  Если есть, конкатенируем имена. Если нет, просто создаем новый объект.
+    if(dateArrayOfBirthdays.includes(inputDate)){
+        birthdays.forEach((celebrant, index) => {
+            if(celebrant.date === inputDate){
+                celebrant.name = celebrant.name + ' и ' + inputName;
+                updateHtmlCardOfCelebrant(index);
+            } 
+        });
+    }
+    else{
+        const newId = String(Date.now()); 
+        const newHtmlCard = createHtmlCard(newId, inputName, inputDate);
+        birthdays.push({id: newId, name: inputName, date: inputDate});
+        celebrantsList.append(newHtmlCard); 
+    }
     addCelebrantBoxForm.reset();
+    console.log(birthdays);
 });
 
 //Вешаем обработчик событий на родителя tasksList, чтобы отслеживать нажатия кнопок Удалить
