@@ -202,7 +202,7 @@ h1,h2,p{
 .celebrants-item__string{
     width: 223px;
     border-bottom: 1px solid var(--grey);
-    margin-left: 20px;
+    margin: 0 20px;
 }
 .celebrants-item__name{
     margin-top: 40px;
@@ -334,7 +334,7 @@ h1,h2,p{
         top: 35px;
         right: -100px;
     }
-    .default-img {
+    .celebrants-images-block {
         display: none
     }
 }
