@@ -124,11 +124,14 @@ h1,h2,p{
     text-align: left;
 }
 .add-celebrant-box__wrapper{
+    position: relative;
     display: inline-block;
     margin: 0 33px 0 21px;
 }
-.add-celebrant-box__wrapper>.add-celebrant-box__input{
+.label-for__input{
     margin-bottom: 15px;
+    display: block;
+    position: relative;
 }
 .add-celebrant-box__input{
     display: block;
@@ -162,6 +165,13 @@ h1,h2,p{
 .add-celebrant-box__button:active{
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.error-message-block {
+    position: absolute;
+    left: 0;
+    bottom: -23px;
+    font-size: 14px;
+    color: red;
+} 
 
 /* section celebrants */
 .celebrants{
